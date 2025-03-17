@@ -1,33 +1,27 @@
 package com.snportela.inventory_system.domain.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.UUID;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class CustomerAdressDto {
+public record CustomerAdressDto (
+        UUID customerAdressId,
 
-    private UUID customerAdressId;
+        CustomerDto customer,
 
-    private CustomerDto customer;
+        String street,
 
-    private String street;
+        String district,
 
-    private String district;
+        Integer number,
 
-    private Integer number;
+        String city,
 
-    private String city;
+        String state,
 
-    private String state;
+        String postalCode,
 
-    private String postalCode;
+        String details,
 
-    private String details;
+        String receiverName
 
-    private String receiverName;
+) {
 }

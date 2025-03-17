@@ -2,10 +2,11 @@ package com.snportela.inventory_system.domain.dto;
 
 import java.util.UUID;
 
-public record CustomerDto(
-        UUID customerId,
+public record SupplierDto(
+        UUID supplierId,
         String name,
         String phone,
-        String email
+        String email,
+        String cnpj
 ) {
 }

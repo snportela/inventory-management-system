@@ -3,7 +3,6 @@ package com.snportela.inventory_system.services;
 import com.snportela.inventory_system.domain.entities.CustomerAdressEntity;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface CustomerAdressService {
@@ -12,9 +11,9 @@ public interface CustomerAdressService {
 
     List<CustomerAdressEntity> findAll();
 
-    Optional<CustomerAdressEntity> findOne(UUID customerAdressId);
+    CustomerAdressEntity findOne(UUID customerAdressId);
 
-    boolean isExists(UUID customerAdressId);
+    CustomerAdressEntity update(UUID customerAdressId, CustomerAdressEntity customerAdressEntity);
 
     void delete(UUID customerAdressId);
 }

@@ -1,24 +1,21 @@
 package com.snportela.inventory_system.services.impl;
 
 import com.snportela.inventory_system.domain.entities.CustomerAdressEntity;
+import com.snportela.inventory_system.exceptions.NotFoundException;
 import com.snportela.inventory_system.repositories.CustomerAdressRepository;
-import com.snportela.inventory_system.repositories.CustomerRepository;
 import com.snportela.inventory_system.services.CustomerAdressService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class CustomerAdressServiceImpl implements CustomerAdressService {
 
     private final CustomerAdressRepository customerAdressRepository;
-    private final CustomerRepository customerRepository;
 
-    public CustomerAdressServiceImpl(CustomerAdressRepository customerAdressRepository, CustomerRepository customerRepository) {
+    public CustomerAdressServiceImpl(CustomerAdressRepository customerAdressRepository) {
         this.customerAdressRepository = customerAdressRepository;
-        this.customerRepository = customerRepository;
     }
 
     @Override
@@ -28,21 +25,33 @@ public class CustomerAdressServiceImpl implements CustomerAdressService {
 
     @Override
     public List<CustomerAdressEntity> findAll() {
-        return (List<CustomerAdressEntity>) customerAdressRepository.findAll();
+        return customerAdressRepository.findAll();
     }
 
     @Override
-    public Optional<CustomerAdressEntity> findOne(UUID customerAdressId) {
-        return customerAdressRepository.findById(customerAdressId);
+    public CustomerAdressEntity findOne(UUID customerAdressId) {
+        return customerAdressRepository.findById(customerAdressId).orElseThrow(NotFoundException::new);
     }
 
     @Override
-    public boolean isExists(UUID customerAdressId) {
-        return customerAdressRepository.existsById(customerAdressId);
+    public CustomerAdressEntity update(UUID customerAdressId, CustomerAdressEntity customerAdressEntity) {
+        CustomerAdressEntity existingAdress = customerAdressRepository.findById(customerAdressId).orElseThrow(NotFoundException::new);
+
+        existingAdress.setCustomer(customerAdressEntity.getCustomer());
+        existingAdress.setStreet(customerAdressEntity.getStreet());
+        existingAdress.setDistrict(customerAdressEntity.getDistrict());
+        existingAdress.setNumber(customerAdressEntity.getNumber());
+        existingAdress.setCity(customerAdressEntity.getCity());
+        existingAdress.setState(customerAdressEntity.getState());
+        existingAdress.setPostalCode(customerAdressEntity.getPostalCode());
+        existingAdress.setReceiverName(customerAdressEntity.getReceiverName());
+
+        return customerAdressRepository.save(existingAdress);
     }
 
     @Override
     public void delete(UUID customerAdressId) {
-        customerRepository.deleteById(customerAdressId);
+        customerAdressRepository.findById(customerAdressId).orElseThrow(NotFoundException::new);
+        customerAdressRepository.deleteById(customerAdressId);
     }
 }
