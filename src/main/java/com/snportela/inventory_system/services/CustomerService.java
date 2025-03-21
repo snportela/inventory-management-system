@@ -1,19 +1,19 @@
 package com.snportela.inventory_system.services;
 
-import com.snportela.inventory_system.domain.entities.CustomerEntity;
+import com.snportela.inventory_system.domain.entities.Customer;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface CustomerService {
 
-    CustomerEntity save(CustomerEntity customerEntity);
+    Customer save(Customer customer);
 
-    List<CustomerEntity> findAll();
+    List<Customer> findAll();
 
-    CustomerEntity findOne(UUID customerId);
+    Customer findOne(UUID customerId);
 
-    CustomerEntity update(UUID customerId, CustomerEntity customerEntity);
+    Customer update(UUID customerId, Customer customer);
 
     void delete(UUID customerId);
 }

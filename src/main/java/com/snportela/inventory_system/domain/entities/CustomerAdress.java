@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -12,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "customers_adresses")
-public class CustomerAdressEntity {
+public class CustomerAdress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,7 +24,7 @@ public class CustomerAdressEntity {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    private CustomerEntity customer;
+    private Customer customer;
 
     @Column(nullable = false)
     private String street;
@@ -45,4 +48,16 @@ public class CustomerAdressEntity {
 
     @Column(name = "receiver_name")
     private String receiverName;
+
+    @CreationTimestamp
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP")
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at", columnDefinition = "TIMESTAMP")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "deleted_at", columnDefinition = "TIMESTAMP")
+    private LocalDateTime deletedAt;
+
 }

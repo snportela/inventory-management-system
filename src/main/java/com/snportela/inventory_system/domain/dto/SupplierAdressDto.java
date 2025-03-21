@@ -2,12 +2,10 @@ package com.snportela.inventory_system.domain.dto;
 
 import java.util.UUID;
 
-public record CustomerAdressDto (
-        UUID customerAdressId,
+public record SupplierAdressDto(
+        UUID supplierAdressId,
 
-        CustomerDto customer,
-
-        String street,
+        SupplierDto supplierDto,
 
         String district,
 
@@ -23,4 +21,5 @@ public record CustomerAdressDto (
 
         String receiverName
 
-) { }
+) {
+}

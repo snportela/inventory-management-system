@@ -1,6 +1,6 @@
 package com.snportela.inventory_system.services.impl;
 
-import com.snportela.inventory_system.domain.entities.CustomerAdressEntity;
+import com.snportela.inventory_system.domain.entities.CustomerAdress;
 import com.snportela.inventory_system.exceptions.NotFoundException;
 import com.snportela.inventory_system.repositories.CustomerAdressRepository;
 import com.snportela.inventory_system.services.CustomerAdressService;
@@ -19,32 +19,33 @@ public class CustomerAdressServiceImpl implements CustomerAdressService {
     }
 
     @Override
-    public CustomerAdressEntity save(CustomerAdressEntity customerAdressEntity) {
-        return customerAdressRepository.save(customerAdressEntity);
+    public CustomerAdress save(CustomerAdress customerAdress) {
+        return customerAdressRepository.save(customerAdress);
     }
 
     @Override
-    public List<CustomerAdressEntity> findAll() {
+    public List<CustomerAdress> findAll() {
         return customerAdressRepository.findAll();
     }
 
     @Override
-    public CustomerAdressEntity findOne(UUID customerAdressId) {
+    public CustomerAdress findOne(UUID customerAdressId) {
         return customerAdressRepository.findById(customerAdressId).orElseThrow(NotFoundException::new);
     }
 
     @Override
-    public CustomerAdressEntity update(UUID customerAdressId, CustomerAdressEntity customerAdressEntity) {
-        CustomerAdressEntity existingAdress = customerAdressRepository.findById(customerAdressId).orElseThrow(NotFoundException::new);
+    public CustomerAdress update(UUID customerAdressId, CustomerAdress customerAdress) {
+        CustomerAdress existingAdress = customerAdressRepository.findById(customerAdressId).orElseThrow(NotFoundException::new);
 
-        existingAdress.setCustomer(customerAdressEntity.getCustomer());
-        existingAdress.setStreet(customerAdressEntity.getStreet());
-        existingAdress.setDistrict(customerAdressEntity.getDistrict());
-        existingAdress.setNumber(customerAdressEntity.getNumber());
-        existingAdress.setCity(customerAdressEntity.getCity());
-        existingAdress.setState(customerAdressEntity.getState());
-        existingAdress.setPostalCode(customerAdressEntity.getPostalCode());
-        existingAdress.setReceiverName(customerAdressEntity.getReceiverName());
+        existingAdress.setCustomer(customerAdress.getCustomer());
+        existingAdress.setStreet(customerAdress.getStreet());
+        existingAdress.setDistrict(customerAdress.getDistrict());
+        existingAdress.setNumber(customerAdress.getNumber());
+        existingAdress.setCity(customerAdress.getCity());
+        existingAdress.setState(customerAdress.getState());
+        existingAdress.setPostalCode(customerAdress.getPostalCode());
+        existingAdress.setDetails(customerAdress.getDetails());
+        existingAdress.setReceiverName(customerAdress.getReceiverName());
 
         return customerAdressRepository.save(existingAdress);
     }

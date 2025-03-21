@@ -1,7 +1,7 @@
 package com.snportela.inventory_system.controllers;
 
 import com.snportela.inventory_system.domain.dto.CustomerDto;
-import com.snportela.inventory_system.domain.entities.CustomerEntity;
+import com.snportela.inventory_system.domain.entities.Customer;
 import com.snportela.inventory_system.mappers.CustomerMapper;
 import com.snportela.inventory_system.services.CustomerService;
 import org.springframework.http.HttpStatus;
@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 public class CustomerController {
 
     private final CustomerService customerService;
+
     private final CustomerMapper customerMapper;
 
     public CustomerController(CustomerService customerService, CustomerMapper customerMapper) {
@@ -26,27 +27,27 @@ public class CustomerController {
 
     @GetMapping
     public ResponseEntity<List<CustomerDto>> listCustomers(){
-        List<CustomerDto> customersList = customerService.findAll().stream().map(customerMapper::toDto).collect(Collectors.toList());
+        List<CustomerDto> customersList = customerService.findAll().stream().map(customerMapper::customerToDto).collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(customersList);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CustomerDto> getCustomer(@PathVariable("id") UUID customerId) {
-        CustomerEntity foundCustomer = customerService.findOne(customerId);
-        return ResponseEntity.status(HttpStatus.FOUND).body(customerMapper.toDto(foundCustomer));
+        Customer foundCustomer = customerService.findOne(customerId);
+        return ResponseEntity.status(HttpStatus.FOUND).body(customerMapper.customerToDto(foundCustomer));
     }
 
     @PostMapping
     public ResponseEntity<CustomerDto> createCustomer(@RequestBody CustomerDto customerDto) {
-        CustomerEntity savedCustomer = customerService.save(customerMapper.fromDto(customerDto));
-        return ResponseEntity.status(HttpStatus.CREATED).body(customerMapper.toDto(savedCustomer));
+        Customer savedCustomer = customerService.save(customerMapper.dtoToCustomer(customerDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerMapper.customerToDto(savedCustomer));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CustomerDto> updateCustomer(
             @PathVariable("id") UUID customerId, @RequestBody CustomerDto customerDto) {
-            CustomerEntity updatedCustomer = customerService.update(customerId, customerMapper.fromDto(customerDto));
-            return ResponseEntity.status(HttpStatus.CREATED).body(customerMapper.toDto(updatedCustomer));
+            Customer updatedCustomer = customerService.update(customerId, customerMapper.dtoToCustomer(customerDto));
+            return ResponseEntity.status(HttpStatus.CREATED).body(customerMapper.customerToDto(updatedCustomer));
     }
 
     @DeleteMapping("/{id}")

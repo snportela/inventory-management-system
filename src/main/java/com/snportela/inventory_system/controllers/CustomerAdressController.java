@@ -1,7 +1,7 @@
 package com.snportela.inventory_system.controllers;
 
 import com.snportela.inventory_system.domain.dto.CustomerAdressDto;
-import com.snportela.inventory_system.domain.entities.CustomerAdressEntity;
+import com.snportela.inventory_system.domain.entities.CustomerAdress;
 import com.snportela.inventory_system.mappers.CustomerAdressMapper;
 import com.snportela.inventory_system.services.CustomerAdressService;
 import org.springframework.http.HttpStatus;
@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 public class CustomerAdressController {
 
     private final CustomerAdressService customerAdressService;
+
     private final CustomerAdressMapper customerAdressMapper;
 
     public CustomerAdressController(CustomerAdressService customerAdressService, CustomerAdressMapper customerAdressMapper) {
@@ -26,20 +27,20 @@ public class CustomerAdressController {
 
     @GetMapping
     public ResponseEntity<List<CustomerAdressDto>> listCustomerAdresses() {
-        List<CustomerAdressDto> customerAdressList = customerAdressService.findAll().stream().map(customerAdressMapper::toDto).collect(Collectors.toList());
+        List<CustomerAdressDto> customerAdressList = customerAdressService.findAll().stream().map(customerAdressMapper::customerAdressToDto).collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(customerAdressList);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CustomerAdressDto> getCustomerAdress(@PathVariable("id") UUID customerAdressId) {
-        CustomerAdressEntity foundCustomerAdress = customerAdressService.findOne(customerAdressId);
-        return ResponseEntity.status(HttpStatus.FOUND).body(customerAdressMapper.toDto(foundCustomerAdress));
+        CustomerAdress foundCustomerAdress = customerAdressService.findOne(customerAdressId);
+        return ResponseEntity.status(HttpStatus.FOUND).body(customerAdressMapper.customerAdressToDto(foundCustomerAdress));
     }
 
     @PostMapping
     public ResponseEntity<CustomerAdressDto> createCustomerAdress(@RequestBody CustomerAdressDto customerAdressDto) {
-        CustomerAdressEntity savedCustomerAdress = customerAdressService.save(customerAdressMapper.fromDto(customerAdressDto));
-        return ResponseEntity.status(HttpStatus.CREATED).body(customerAdressMapper.toDto(savedCustomerAdress));
+        CustomerAdress savedCustomerAdress = customerAdressService.save(customerAdressMapper.dtoToCustomerAdress(customerAdressDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerAdressMapper.customerAdressToDto(savedCustomerAdress));
     }
 
     @PutMapping("/{id}")
@@ -47,8 +48,8 @@ public class CustomerAdressController {
             @PathVariable("id") UUID customerAdressId,
             @RequestBody CustomerAdressDto customerAdressDto
     ) {
-        CustomerAdressEntity updatedCustomerAdress = customerAdressService.update(customerAdressId, customerAdressMapper.fromDto(customerAdressDto));
-        return ResponseEntity.status(HttpStatus.CREATED).body(customerAdressMapper.toDto(updatedCustomerAdress));
+        CustomerAdress updatedCustomerAdress = customerAdressService.update(customerAdressId, customerAdressMapper.dtoToCustomerAdress(customerAdressDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerAdressMapper.customerAdressToDto(updatedCustomerAdress));
     }
 
     @DeleteMapping("/{id}")

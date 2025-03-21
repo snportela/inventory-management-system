@@ -1,11 +1,14 @@
 package com.snportela.inventory_system.mappers;
 
 import com.snportela.inventory_system.domain.dto.SupplierDto;
-import com.snportela.inventory_system.domain.entities.SupplierEntity;
+import com.snportela.inventory_system.domain.entities.Supplier;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SupplierMapper {
 
-    SupplierEntity fromDto(SupplierDto supplierDto);
+    SupplierDto supplierToDto(Supplier supplier);
 
-    SupplierDto toDto(SupplierEntity supplierEntity);
+    Supplier dtoToSupplier(SupplierDto supplierDto);
 }

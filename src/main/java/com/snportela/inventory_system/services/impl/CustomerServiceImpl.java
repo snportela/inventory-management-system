@@ -1,6 +1,6 @@
 package com.snportela.inventory_system.services.impl;
 
-import com.snportela.inventory_system.domain.entities.CustomerEntity;
+import com.snportela.inventory_system.domain.entities.Customer;
 import com.snportela.inventory_system.exceptions.NotFoundException;
 import com.snportela.inventory_system.repositories.CustomerRepository;
 import com.snportela.inventory_system.services.CustomerService;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
-import static java.util.Optional.ofNullable;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -21,28 +20,28 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerEntity save(CustomerEntity customerEntity) {
-        return customerRepository.save(customerEntity);
+    public Customer save(Customer customer) {
+        return customerRepository.save(customer);
     }
 
     @Override
-    public List<CustomerEntity> findAll() {
+    public List<Customer> findAll() {
         return customerRepository.findAll();
     }
 
     @Override
-    public CustomerEntity findOne(UUID customerId) {
+    public Customer findOne(UUID customerId) {
         return customerRepository.findById(customerId).orElseThrow(NotFoundException::new);
     }
 
     @Override
-    public CustomerEntity update(UUID customerId, CustomerEntity customerEntity) {
+    public Customer update(UUID customerId, Customer customer) {
 
-        CustomerEntity existingCustomer = customerRepository.findById(customerId).orElseThrow(NotFoundException::new);
+        Customer existingCustomer = customerRepository.findById(customerId).orElseThrow(NotFoundException::new);
 
-        existingCustomer.setName(customerEntity.getName());
-        existingCustomer.setPhone(customerEntity.getPhone());
-        existingCustomer.setEmail(customerEntity.getEmail());
+        existingCustomer.setName(customer.getName());
+        existingCustomer.setPhone(customer.getPhone());
+        existingCustomer.setEmail(customer.getEmail());
 
         return customerRepository.save(existingCustomer);
 
