@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -14,37 +15,33 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "suppliers_adresses")
-public class SupplierAdress {
+@Table(name = "products")
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "supplier_adress_id", columnDefinition = "uuid", updatable = false, nullable = false)
-    private UUID supplierAdressId;
+    @Column(name = "product_id", columnDefinition = "uuid", updatable = false, nullable = false)
+    private UUID productId;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String description;
+
+    @Column(nullable = false, scale = 10, precision = 2)
+    private BigDecimal price;
+
+    @Column(nullable = false)
+    private Integer quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private ProductCategory productCategory;
 
     @ManyToOne
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
-
-    @Column(nullable = false)
-    private String street;
-
-    @Column(nullable = false)
-    private String district;
-
-    @Column(nullable = false)
-    private Integer number;
-
-    @Column(nullable = false)
-    private String city;
-
-    @Column(nullable = false)
-    private String state;
-
-    @Column(name = "postal_code", nullable = false)
-    private String postalCode;
-
-    private String details;
 
     @CreationTimestamp
     @Column(name = "created_at", columnDefinition = "TIMESTAMP")
@@ -56,5 +53,4 @@ public class SupplierAdress {
 
     @Column(name = "deleted_at", columnDefinition = "TIMESTAMP")
     private LocalDateTime deletedAt;
-
 }

@@ -19,7 +19,7 @@ public class CustomerAdress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "customer_adress_id")
+    @Column(name = "customer_adress_id", columnDefinition = "uuid", updatable = false, nullable = false)
     private UUID customerAdressId;
 
     @ManyToOne

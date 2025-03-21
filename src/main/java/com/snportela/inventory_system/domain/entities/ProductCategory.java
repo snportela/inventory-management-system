@@ -14,37 +14,19 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "suppliers_adresses")
-public class SupplierAdress {
+@Table(name = "product_categories")
+public class ProductCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "supplier_adress_id", columnDefinition = "uuid", updatable = false, nullable = false)
-    private UUID supplierAdressId;
-
-    @ManyToOne
-    @JoinColumn(name = "supplier_id")
-    private Supplier supplier;
+    @Column(name = "category_id", columnDefinition = "uuid", updatable = false, nullable = false)
+    private UUID categoryId;
 
     @Column(nullable = false)
-    private String street;
+    private String name;
 
     @Column(nullable = false)
-    private String district;
-
-    @Column(nullable = false)
-    private Integer number;
-
-    @Column(nullable = false)
-    private String city;
-
-    @Column(nullable = false)
-    private String state;
-
-    @Column(name = "postal_code", nullable = false)
-    private String postalCode;
-
-    private String details;
+    private String description;
 
     @CreationTimestamp
     @Column(name = "created_at", columnDefinition = "TIMESTAMP")
@@ -56,5 +38,4 @@ public class SupplierAdress {
 
     @Column(name = "deleted_at", columnDefinition = "TIMESTAMP")
     private LocalDateTime deletedAt;
-
 }

@@ -46,6 +46,7 @@ public class CustomerController {
     @PutMapping("/{id}")
     public ResponseEntity<CustomerDto> updateCustomer(
             @PathVariable("id") UUID customerId, @RequestBody CustomerDto customerDto) {
+
             Customer updatedCustomer = customerService.update(customerId, customerMapper.dtoToCustomer(customerDto));
             return ResponseEntity.status(HttpStatus.CREATED).body(customerMapper.customerToDto(updatedCustomer));
     }

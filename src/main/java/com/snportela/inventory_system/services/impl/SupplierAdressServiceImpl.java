@@ -45,7 +45,6 @@ public class SupplierAdressServiceImpl implements SupplierAdressService {
         existingSupplierAdress.setState(supplierAdress.getState());
         existingSupplierAdress.setPostalCode(supplierAdress.getPostalCode());
         existingSupplierAdress.setDetails(supplierAdress.getDetails());
-        existingSupplierAdress.setReceiverName(supplierAdress.getReceiverName());
 
         return supplierAdressRepository.save(existingSupplierAdress);
 
