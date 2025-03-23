@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
@@ -15,9 +14,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "order_items")
-public class OrderItem implements Serializable {
+public class OrderItem {
 
-    @Id
+    @EmbeddedId
     private OrderItemId orderItemId;
 
     @Column(name = "order_quantity", nullable = false)
@@ -33,8 +32,5 @@ public class OrderItem implements Serializable {
 
     @Column(name = "deleted_at", columnDefinition = "TIMESTAMP")
     private LocalDateTime deletedAt;
-
-
-
 
 }

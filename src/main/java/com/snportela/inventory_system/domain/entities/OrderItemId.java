@@ -1,21 +1,19 @@
 package com.snportela.inventory_system.domain.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 @Data
 @Embeddable
 public class OrderItemId implements Serializable {
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+    @Column(name = "order_id")
+    private UUID orderId;
 
-   @ManyToOne
-   @JoinColumn(name = "product_id")
-   private Product product;
+    @Column(name = "product_id")
+    private UUID productId;
 }

@@ -59,6 +59,7 @@ public class Order {
     @Column(name = "total_price", scale = 10, precision = 2, nullable = false)
     private BigDecimal totalPrice;
 
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     @Generated(GenerationTime.INSERT)
     @Column(name = "tracking_number", insertable = false)
     private String trackingNumber;

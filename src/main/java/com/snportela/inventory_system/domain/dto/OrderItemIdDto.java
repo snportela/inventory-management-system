@@ -1,10 +1,12 @@
 package com.snportela.inventory_system.domain.dto;
 
+import java.util.UUID;
+
 public record OrderItemIdDto (
 
-        OrderDto order,
+        UUID orderId,
 
-        ProductDto product
+        UUID productId
 
 ) {
 }
