@@ -4,7 +4,6 @@ import com.snportela.inventory_system.domain.dto.ProductCategoryDto;
 import com.snportela.inventory_system.domain.entities.ProductCategory;
 import com.snportela.inventory_system.mappers.ProductCategoryMapper;
 import com.snportela.inventory_system.services.ProductCategoryService;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
