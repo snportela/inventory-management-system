@@ -22,11 +22,11 @@ Spring Boot REST API for an inventory management system.
 ```
 git clone https://github.com/snportela/inventory-management-system
 ```
-- Install Maven dependecies
+- Install Maven dependencies
 
 - Create a PostgreSQL database
 
-- Configure enviroment variables (DB_URL, DB_USER, DB_PASSWORD)
+- Configure environment variables (DB_URL, DB_USER, DB_PASSWORD)
 
 - Go to the `InventorySystemApplication` class and run the project
 
