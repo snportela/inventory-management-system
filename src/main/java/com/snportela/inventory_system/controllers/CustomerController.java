@@ -1,9 +1,12 @@
 package com.snportela.inventory_system.controllers;
 
-import com.snportela.inventory_system.domain.dto.CustomerDto;
-import com.snportela.inventory_system.domain.entities.Customer;
+import com.snportela.inventory_system.dtos.CustomerDto;
+import com.snportela.inventory_system.domain.Customer;
 import com.snportela.inventory_system.mappers.CustomerMapper;
 import com.snportela.inventory_system.services.CustomerService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +29,10 @@ public class CustomerController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CustomerDto>> listCustomers(){
-        List<CustomerDto> customersList = customerService.findAll().stream().map(customerMapper::customerToDto).collect(Collectors.toList());
-        return ResponseEntity.status(HttpStatus.OK).body(customersList);
+    public ResponseEntity<List<CustomerDto>> listCustomersWithPagination(@RequestParam int page, @RequestParam int size){
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Customer> customersList = customerService.findAll(pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(customersList.stream().map(customerMapper::customerToDto).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")

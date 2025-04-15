@@ -1,9 +1,12 @@
 package com.snportela.inventory_system.controllers;
 
-import com.snportela.inventory_system.domain.dto.SupplierDto;
-import com.snportela.inventory_system.domain.entities.Supplier;
+import com.snportela.inventory_system.dtos.SupplierDto;
+import com.snportela.inventory_system.domain.Supplier;
 import com.snportela.inventory_system.mappers.SupplierMapper;
 import com.snportela.inventory_system.services.SupplierService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +29,10 @@ public class SupplierController {
     }
 
     @GetMapping
-    public ResponseEntity<List<SupplierDto>> listSuppliers() {
-        List<SupplierDto> suppliersList = supplierService.findAll().stream().map(supplierMapper::supplierToDto).collect(Collectors.toList());
-        return ResponseEntity.status(HttpStatus.OK).body(suppliersList);
+    public ResponseEntity<List<SupplierDto>> listSuppliers(@RequestParam int page, @RequestParam int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Supplier> suppliersList = supplierService.findAll(pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(suppliersList.stream().map(supplierMapper::supplierToDto).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")

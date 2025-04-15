@@ -1,12 +1,13 @@
 package com.snportela.inventory_system.services.impl;
 
-import com.snportela.inventory_system.domain.entities.Transfer;
+import com.snportela.inventory_system.domain.Transfer;
 import com.snportela.inventory_system.exceptions.NotFoundException;
 import com.snportela.inventory_system.repositories.TransferRepository;
 import com.snportela.inventory_system.services.TransferService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -24,8 +25,8 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public List<Transfer> findAll() {
-        return transferRepository.findAll();
+    public Page<Transfer> findAll(Pageable pageable) {
+        return transferRepository.findAll(pageable);
     }
 
     @Override

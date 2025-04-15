@@ -1,12 +1,13 @@
 package com.snportela.inventory_system.services.impl;
 
-import com.snportela.inventory_system.domain.entities.Supplier;
+import com.snportela.inventory_system.domain.Supplier;
 import com.snportela.inventory_system.exceptions.NotFoundException;
 import com.snportela.inventory_system.repositories.SupplierRepository;
 import com.snportela.inventory_system.services.SupplierService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -24,8 +25,8 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public List<Supplier> findAll() {
-        return supplierRepository.findAll();
+    public Page<Supplier> findAll(Pageable pageable) {
+        return supplierRepository.findAll(pageable);
     }
 
     @Override

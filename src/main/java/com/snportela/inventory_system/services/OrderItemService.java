@@ -1,15 +1,16 @@
 package com.snportela.inventory_system.services;
 
-import com.snportela.inventory_system.domain.entities.OrderItem;
+import com.snportela.inventory_system.domain.OrderItem;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface OrderItemService {
 
     OrderItem save(OrderItem orderItem);
 
-    List<OrderItem> findAll();
+    Page<OrderItem> findAll(Pageable pageable);
 
     OrderItem findOneByProduct(UUID productId);
 

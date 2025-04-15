@@ -1,15 +1,16 @@
 package com.snportela.inventory_system.services;
 
-import com.snportela.inventory_system.domain.entities.Transfer;
+import com.snportela.inventory_system.domain.Transfer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface TransferService {
 
     Transfer save(Transfer transfer);
 
-    List<Transfer> findAll();
+    Page<Transfer> findAll(Pageable pageable);
 
     Transfer findOne(UUID transferId);
 

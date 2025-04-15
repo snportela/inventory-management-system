@@ -1,12 +1,13 @@
 package com.snportela.inventory_system.services.impl;
 
-import com.snportela.inventory_system.domain.entities.ProductCategory;
+import com.snportela.inventory_system.domain.ProductCategory;
 import com.snportela.inventory_system.exceptions.NotFoundException;
 import com.snportela.inventory_system.repositories.ProductCategoryRepository;
 import com.snportela.inventory_system.services.ProductCategoryService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -24,8 +25,8 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     }
 
     @Override
-    public List<ProductCategory> findAll() {
-        return productCategoryRepository.findAll();
+    public Page<ProductCategory> findAll(Pageable pageable) {
+        return productCategoryRepository.findAll(pageable);
     }
 
     @Override

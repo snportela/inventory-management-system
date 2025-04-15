@@ -1,12 +1,13 @@
 package com.snportela.inventory_system.services.impl;
 
-import com.snportela.inventory_system.domain.entities.Customer;
+import com.snportela.inventory_system.domain.Customer;
 import com.snportela.inventory_system.exceptions.NotFoundException;
 import com.snportela.inventory_system.repositories.CustomerRepository;
 import com.snportela.inventory_system.services.CustomerService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 
@@ -25,8 +26,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Customer> findAll() {
-        return customerRepository.findAll();
+    public Page<Customer> findAll(Pageable pageable) {
+        return customerRepository.findAll(pageable);
     }
 
     @Override
@@ -44,7 +45,6 @@ public class CustomerServiceImpl implements CustomerService {
         existingCustomer.setEmail(customer.getEmail());
 
         return customerRepository.save(existingCustomer);
-
     }
 
     @Override

@@ -1,9 +1,12 @@
 package com.snportela.inventory_system.controllers;
 
-import com.snportela.inventory_system.domain.dto.ProductCategoryDto;
-import com.snportela.inventory_system.domain.entities.ProductCategory;
+import com.snportela.inventory_system.dtos.ProductCategoryDto;
+import com.snportela.inventory_system.domain.ProductCategory;
 import com.snportela.inventory_system.mappers.ProductCategoryMapper;
 import com.snportela.inventory_system.services.ProductCategoryService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +29,10 @@ public class ProductCategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductCategoryDto>> listCategories() {
-        List<ProductCategoryDto> categoryDtoList = productCategoryService.findAll().stream().map(productCategoryMapper::productCategoryToDto).collect(Collectors.toList());
-        return ResponseEntity.status(HttpStatus.OK).body(categoryDtoList);
+    public ResponseEntity<List<ProductCategoryDto>> listCategories(@RequestParam int page, @RequestParam int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<ProductCategory> categoryDtoList = productCategoryService.findAll(pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(categoryDtoList.stream().map(productCategoryMapper::productCategoryToDto).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")

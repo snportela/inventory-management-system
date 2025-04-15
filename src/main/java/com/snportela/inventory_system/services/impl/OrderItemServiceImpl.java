@@ -1,13 +1,14 @@
 package com.snportela.inventory_system.services.impl;
 
-import com.snportela.inventory_system.domain.entities.OrderItem;
+import com.snportela.inventory_system.domain.OrderItem;
 import com.snportela.inventory_system.exceptions.NotFoundException;
 import com.snportela.inventory_system.repositories.OrderItemRepository;
 import com.snportela.inventory_system.services.OrderItemService;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -25,8 +26,8 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     @Override
-    public List<OrderItem> findAll() {
-        return orderItemRepository.findAll();
+    public Page<OrderItem> findAll(Pageable pageable) {
+        return orderItemRepository.findAll(pageable);
     }
 
     @Override

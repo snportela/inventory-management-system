@@ -1,15 +1,16 @@
 package com.snportela.inventory_system.services;
 
-import com.snportela.inventory_system.domain.entities.Product;
+import com.snportela.inventory_system.domain.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface ProductService {
 
     Product save(Product product);
 
-    List<Product> findAll();
+    Page<Product> findAll(Pageable pageable);
 
     Product findOne(UUID productId);
 

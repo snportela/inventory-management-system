@@ -1,7 +1,7 @@
 package com.snportela.inventory_system.mappers;
 
-import com.snportela.inventory_system.domain.dto.SupplierDto;
-import com.snportela.inventory_system.domain.entities.Supplier;
+import com.snportela.inventory_system.dtos.SupplierDto;
+import com.snportela.inventory_system.domain.Supplier;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 

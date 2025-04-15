@@ -1,12 +1,13 @@
 package com.snportela.inventory_system.services.impl;
 
-import com.snportela.inventory_system.domain.entities.Order;
+import com.snportela.inventory_system.domain.Order;
 import com.snportela.inventory_system.exceptions.NotFoundException;
 import com.snportela.inventory_system.repositories.OrderRepository;
 import com.snportela.inventory_system.services.OrderService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -24,8 +25,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findAll() {
-        return orderRepository.findAll();
+    public Page<Order> findAll(Pageable pageable) {
+        return orderRepository.findAll(pageable);
     }
 
     @Override
@@ -38,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
         Order existingOrder = orderRepository.findById(orderId).orElseThrow(NotFoundException::new);
 
         existingOrder.setCustomer(order.getCustomer());
-        existingOrder.setCustomerAdress(order.getCustomerAdress());
+        existingOrder.setCustomerAddress(order.getCustomerAddress());
         existingOrder.setOrderStatus(order.getOrderStatus());
         existingOrder.setExpectedDate(order.getExpectedDate());
         existingOrder.setActualDate(order.getActualDate());

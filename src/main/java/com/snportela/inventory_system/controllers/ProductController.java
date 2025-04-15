@@ -1,9 +1,12 @@
 package com.snportela.inventory_system.controllers;
 
-import com.snportela.inventory_system.domain.dto.ProductDto;
-import com.snportela.inventory_system.domain.entities.Product;
+import com.snportela.inventory_system.dtos.ProductDto;
+import com.snportela.inventory_system.domain.Product;
 import com.snportela.inventory_system.mappers.ProductMapper;
 import com.snportela.inventory_system.services.ProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +29,10 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductDto>> listProducts() {
-        List<ProductDto> productList = productService.findAll().stream().map(productMapper::productToDto).collect(Collectors.toList());
-        return ResponseEntity.status(HttpStatus.OK).body(productList);
+    public ResponseEntity<List<ProductDto>> listProducts(@RequestParam int page, @RequestParam int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> productList = productService.findAll(pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(productList.stream().map(productMapper::productToDto).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")

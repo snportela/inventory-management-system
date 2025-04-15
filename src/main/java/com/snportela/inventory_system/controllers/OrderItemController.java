@@ -1,9 +1,12 @@
 package com.snportela.inventory_system.controllers;
 
-import com.snportela.inventory_system.domain.dto.OrderItemDto;
-import com.snportela.inventory_system.domain.entities.OrderItem;
+import com.snportela.inventory_system.dtos.OrderItemDto;
+import com.snportela.inventory_system.domain.OrderItem;
 import com.snportela.inventory_system.mappers.OrderItemMapper;
 import com.snportela.inventory_system.services.OrderItemService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +29,10 @@ public class OrderItemController {
     }
 
     @GetMapping
-    public ResponseEntity<List<OrderItemDto>> listOrderItems() {
-        List<OrderItemDto> orderItemList = orderItemService.findAll().stream().map(orderItemMapper::orderItemToDto).collect(Collectors.toList());
-        return ResponseEntity.status(HttpStatus.OK).body(orderItemList);
+    public ResponseEntity<List<OrderItemDto>> listOrderItems(@RequestParam int page, @RequestParam int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<OrderItem> orderItemList = orderItemService.findAll(pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(orderItemList.stream().map(orderItemMapper::orderItemToDto).collect(Collectors.toList()));
     }
 
     @GetMapping("/product/{id}")

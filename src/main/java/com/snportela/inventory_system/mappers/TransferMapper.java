@@ -1,7 +1,7 @@
 package com.snportela.inventory_system.mappers;
 
-import com.snportela.inventory_system.domain.dto.TransferDto;
-import com.snportela.inventory_system.domain.entities.Transfer;
+import com.snportela.inventory_system.dtos.TransferDto;
+import com.snportela.inventory_system.domain.Transfer;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
