@@ -1,11 +1,12 @@
 package com.snportela.inventory_system.controllers;
 
+import com.snportela.inventory_system.domain.SecurityUser;
 import com.snportela.inventory_system.domain.User;
 import com.snportela.inventory_system.dtos.AuthenticationDto;
 import com.snportela.inventory_system.dtos.LoginResponseDto;
 import com.snportela.inventory_system.dtos.RegisterDto;
 import com.snportela.inventory_system.infra.security.TokenService;
-import com.snportela.inventory_system.repositories.UserRepository;
+import com.snportela.inventory_system.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 
 @RestController
 @RequestMapping("auth")
@@ -24,13 +27,13 @@ public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     private final TokenService tokenService;
 
-    public AuthenticationController(AuthenticationManager authenticationManager, UserRepository userRepository, TokenService tokenService) {
+    public AuthenticationController(AuthenticationManager authenticationManager, UserService userService, TokenService tokenService) {
         this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
+        this.userService = userService;
         this.tokenService = tokenService;
     }
 
@@ -39,21 +42,29 @@ public class AuthenticationController {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
         var auth = authenticationManager.authenticate(usernamePassword);
 
-        var token = tokenService.generateToken((User) auth.getPrincipal());
+        var token = tokenService.generateToken((SecurityUser) auth.getPrincipal());
 
         return ResponseEntity.status(HttpStatus.OK).body(new LoginResponseDto(token));
     }
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody @Valid RegisterDto data) {
-        if(userRepository.findByEmail(data.email()) != null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
+        Optional<User> foundUser =  userService.findByEmail(data.email());
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
 
-        User newUser = new User(data.email(), encryptedPassword, data.name(), data.role(), data.phone());
+        if(foundUser.isEmpty()) {
+            User newUser = new User();
 
-        userRepository.save(newUser);
+            newUser.setPassword(encryptedPassword);
+            newUser.setEmail(data.email());
+            newUser.setName(data.name());
+            newUser.setPhone(data.phone());
+            newUser.setRole(data.role());
 
+            this.userService.save(newUser);
+        }
         return ResponseEntity.status(HttpStatus.OK).body("User registered successfully.");
     }
 }
