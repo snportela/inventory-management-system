@@ -23,7 +23,12 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query(value = "SELECT * FROM users WHERE email = ?1 AND deleted_at IS NULL", nativeQuery = true)
     Optional<User> findByEmail(String email);
 
+    @Query(value = "SELECT * FROM users WHERE reset_token = ?1 AND deleted_at IS NULL", nativeQuery = true)
+    Optional<User> findByResetToken(String resetToken);
+
     @Modifying
     @Query(value = "UPDATE users SET deleted_at = NOW() WHERE user_id = ?1 AND deleted_at IS NULL", nativeQuery = true)
     void deleteById(UUID userId);
+
+
 }

@@ -2,6 +2,8 @@ package com.snportela.inventory_system.controllers;
 
 import com.snportela.inventory_system.domain.User;
 import com.snportela.inventory_system.dtos.UserDto;
+import com.snportela.inventory_system.dtos.UserRedeemPasswordDto;
+import com.snportela.inventory_system.dtos.UserResetPasswordDto;
 import com.snportela.inventory_system.mappers.UserMapper;
 import com.snportela.inventory_system.services.UserService;
 import org.springframework.data.domain.Page;
@@ -56,5 +58,18 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable("id") UUID userId) {
         userService.delete(userId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PostMapping("/redeem-password")
+    public ResponseEntity<String> redeemPassword(@RequestBody UserRedeemPasswordDto userDto) {
+        userService.redeemPassword(userDto.email());
+        return ResponseEntity.status(HttpStatus.OK).body("Sent the redeem password link to your email");
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody UserResetPasswordDto userDto) {
+        userService.resetPassword(userDto.token(), userDto.password());
+
+        return ResponseEntity.status(HttpStatus.OK).body("Credentials updated.");
     }
 }

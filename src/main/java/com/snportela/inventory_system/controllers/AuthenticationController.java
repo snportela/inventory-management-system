@@ -22,7 +22,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("auth")
+@RequestMapping("/auth")
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;

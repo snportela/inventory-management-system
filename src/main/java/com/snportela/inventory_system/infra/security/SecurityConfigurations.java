@@ -32,6 +32,8 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").hasRole("ADMIN")
                         .requestMatchers( "/api/users").hasRole("ADMIN")
+                        .requestMatchers( HttpMethod.POST,"/api/users/redeem-password").permitAll()
+                        .requestMatchers( HttpMethod.POST,"/api/users/reset-password").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

@@ -52,4 +52,7 @@ public class User {
     @Column(name = "deleted_at", columnDefinition = "TIMESTAMP")
     private LocalDateTime deletedAt;
 
+    @Column(name = "reset_token")
+    private String resetToken;
+
 }
