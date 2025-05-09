@@ -9,6 +9,7 @@ import com.snportela.inventory_system.services.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +33,12 @@ public class UserController {
     }
 
     @GetMapping
-        public ResponseEntity<List<UserDto>> listUsers(@RequestParam int page, @RequestParam int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        public ResponseEntity<List<UserDto>> listUsers(@RequestParam int page, @RequestParam int size,
+                                                       @RequestParam String sortField, @RequestParam String order) {
+        Sort sort = order.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortField).ascending(): Sort.by(sortField).descending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
         Page<User> userList = userService.findAll(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(userList.stream().map(userMapper::userToDto).collect(Collectors.toList()));
     }

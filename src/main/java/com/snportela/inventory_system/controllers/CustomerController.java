@@ -7,6 +7,7 @@ import com.snportela.inventory_system.services.CustomerService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +30,12 @@ public class CustomerController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CustomerDto>> listCustomersWithPagination(@RequestParam int page, @RequestParam int size){
-        Pageable pageable = PageRequest.of(page, size);
+    public ResponseEntity<List<CustomerDto>> listCustomersWithPagination(@RequestParam int page, @RequestParam int size, @RequestParam(required = false) String sortField, @RequestParam String order){
+
+        Sort sort = order.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortField).ascending(): Sort.by(sortField).descending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
         Page<Customer> customersList = customerService.findAll(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(customersList.stream().map(customerMapper::customerToDto).collect(Collectors.toList()));
     }

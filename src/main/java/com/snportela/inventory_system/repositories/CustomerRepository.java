@@ -8,12 +8,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-
 import java.util.Optional;
 import java.util.UUID;
 
 @NonNullApi
-public interface CustomerRepository extends JpaRepository<Customer, UUID> {
+public interface CustomerRepository extends JpaRepository<Customer, UUID>{
 
     @Query(value = "SELECT * FROM customers WHERE deleted_at IS NULL", nativeQuery = true)
     Page<Customer> findAll(Pageable pageable);

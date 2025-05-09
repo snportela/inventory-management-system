@@ -7,6 +7,7 @@ import com.snportela.inventory_system.services.OrderService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +30,12 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<List<OrderDto>> listOrders(@RequestParam int page, @RequestParam int size) {
-        Pageable pageable = PageRequest.of(page, size);
+    public ResponseEntity<List<OrderDto>> listOrders(@RequestParam int page, @RequestParam int size,
+                                                     @RequestParam String sortField, @RequestParam String order) {
+        Sort sort = order.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortField).ascending(): Sort.by(sortField).descending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
         Page<Order> orderList = orderService.findAll(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(orderList.stream().map(orderMapper::orderToDto).collect(Collectors.toList()));
     }
