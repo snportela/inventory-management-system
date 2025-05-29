@@ -15,20 +15,19 @@ import java.util.UUID;
 @NonNullApi
 public interface OrderItemRepository extends JpaRepository<OrderItem, OrderItemId> {
 
-    @Query(value = "SELECT * FROM order_items WHERE deleted_at IS NULL", nativeQuery = true)
     Page<OrderItem> findAll(Pageable pageable);
 
-    @Query(value = "SELECT * FROM order_items WHERE order_id = ?1 AND deleted_at IS NULL", nativeQuery = true)
+    @Query(value = "SELECT * FROM order_items WHERE order_id = ?1", nativeQuery = true)
     Optional<OrderItem> findByOrderItemByOrderItemId_OrderId(UUID orderId);
 
-    @Query(value = "SELECT * FROM order_items WHERE product_id = ?1 AND deleted_at IS NULL", nativeQuery = true)
+    @Query(value = "SELECT * FROM order_items WHERE product_id = ?1", nativeQuery = true)
     Optional<OrderItem> findByOrderItemByOrderItemId_ProductId(UUID productId);
 
     @Modifying
-    @Query(value = "UPDATE order_items SET deleted_at = NOW() WHERE order_id = ?1 AND deleted_at IS NULL", nativeQuery = true)
+    @Query(value = "UPDATE order_items SET deleted_at = NOW() WHERE order_id = ?1", nativeQuery = true)
     void deleteByOrderId(UUID orderId);
 
     @Modifying
-    @Query(value = "UPDATE order_items SET deleted_at = NOW() WHERE product_id = ?1 AND deleted_at IS NULL", nativeQuery = true)
+    @Query(value = "UPDATE order_items SET deleted_at = NOW() WHERE product_id = ?1", nativeQuery = true)
     void deleteByProductId(UUID productId);
 }

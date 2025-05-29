@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
@@ -15,10 +17,12 @@ import static jakarta.persistence.EnumType.STRING;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@SQLDelete(sql = "UPDATE users SET deleted_at = NOW() WHERE user_id = ?")
+@SQLRestriction(value = "deleted_at IS NULL")
+@Table(name = "users")
 public class User {
 
     @Id
