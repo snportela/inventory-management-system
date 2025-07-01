@@ -16,6 +16,30 @@ Spring Boot REST API for an inventory management system.
 - PostgreSQL 17
 - JDK 23
 
+## ⚙️ Features
+
+- Allows the management of:
+  - Products
+  - Suppliers
+  - Customers
+  - Orders
+  - Transfers
+  - Users
+
+- User authentication with Spring Security
+  - Password encryption with Bcrypt
+  - Role-Based Access Control
+  - JWT authorization
+
+- Password reset through generated token sent in email
+
+- Pagination and sorting
+
+- Soft delete with Spring JPA
+
+- MVC (Model-View-Controller) pattern
+    
+
 ##  🚀Getting Started
 
 -  Clone the repository
@@ -26,7 +50,7 @@ git clone https://github.com/snportela/inventory-management-system
 
 - Create a PostgreSQL database
 
-- Configure environment variables (DB_URL, DB_USER, DB_PASSWORD)
+- Configure environment variables needed at the `application.properties` file
 
 - Go to the `InventorySystemApplication` class and run the project
 
