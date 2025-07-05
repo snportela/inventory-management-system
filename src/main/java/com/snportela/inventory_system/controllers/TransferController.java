@@ -33,7 +33,7 @@ public class TransferController {
     public ResponseEntity<List<TransferDto>> listTransfers(
             @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "20") int size,
-            @RequestParam(required = false, defaultValue = "productId") String sortField,
+            @RequestParam(required = false, defaultValue = "productProductId") String sortField,
             @RequestParam(required = false, defaultValue = "asc") String order){
         Sort sort = order.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
                 Sort.by(sortField).ascending(): Sort.by(sortField).descending();
