@@ -33,8 +33,11 @@ public class UserController {
     }
 
     @GetMapping
-        public ResponseEntity<List<UserDto>> listUsers(@RequestParam int page, @RequestParam int size,
-                                                       @RequestParam String sortField, @RequestParam String order) {
+        public ResponseEntity<List<UserDto>> listUsers(
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "20") int size,
+            @RequestParam(required = false, defaultValue = "name") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String order){
         Sort sort = order.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
                 Sort.by(sortField).ascending(): Sort.by(sortField).descending();
 
@@ -50,7 +53,7 @@ public class UserController {
         if(foundUser.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
         }
-        return ResponseEntity.status(HttpStatus.FOUND).body(foundUser.map(userMapper::userToDto));
+        return ResponseEntity.status(HttpStatus.OK).body(foundUser.map(userMapper::userToDto));
     }
 
     @PutMapping("/{id}")

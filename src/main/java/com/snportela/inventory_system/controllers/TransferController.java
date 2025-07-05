@@ -30,8 +30,11 @@ public class TransferController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TransferDto>> listTransfers(@RequestParam int page, @RequestParam int size,
-                                                           @RequestParam String sortField, @RequestParam String order) {
+    public ResponseEntity<List<TransferDto>> listTransfers(
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "20") int size,
+            @RequestParam(required = false, defaultValue = "productId") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String order){
         Sort sort = order.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
                 Sort.by(sortField).ascending(): Sort.by(sortField).descending();
 
@@ -43,7 +46,7 @@ public class TransferController {
     @GetMapping("/{id}")
     public ResponseEntity<TransferDto> getTransfer(@PathVariable("id") UUID transferId) {
         Transfer foundTransfer = transferService.findOne(transferId);
-        return ResponseEntity.status(HttpStatus.FOUND).body(transferMapper.transferToDto(foundTransfer));
+        return ResponseEntity.status(HttpStatus.OK).body(transferMapper.transferToDto(foundTransfer));
     }
 
     @PostMapping

@@ -30,8 +30,11 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<List<OrderDto>> listOrders(@RequestParam int page, @RequestParam int size,
-                                                     @RequestParam String sortField, @RequestParam String order) {
+    public ResponseEntity<List<OrderDto>> listOrders(
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "20") int size,
+            @RequestParam(required = false, defaultValue = "orderStatus") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String order){
         Sort sort = order.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
                 Sort.by(sortField).ascending(): Sort.by(sortField).descending();
 
@@ -43,7 +46,7 @@ public class OrderController {
     @GetMapping("/{id}")
     public ResponseEntity<OrderDto> getOrder(@PathVariable("id") UUID orderId) {
         Order foundOrder = orderService.findOne(orderId);
-        return ResponseEntity.status(HttpStatus.FOUND).body(orderMapper.orderToDto(foundOrder));
+        return ResponseEntity.status(HttpStatus.OK).body(orderMapper.orderToDto(foundOrder));
     }
 
     @PostMapping

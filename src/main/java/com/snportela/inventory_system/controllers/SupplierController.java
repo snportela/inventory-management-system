@@ -30,8 +30,11 @@ public class SupplierController {
     }
 
     @GetMapping
-    public ResponseEntity<List<SupplierDto>> listSuppliers(@RequestParam int page, @RequestParam int size,
-                                                           @RequestParam String sortField, @RequestParam String order) {
+    public ResponseEntity<List<SupplierDto>> listSuppliers(
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "20") int size,
+            @RequestParam(required = false, defaultValue = "name") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String order){
         Sort sort = order.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
                 Sort.by(sortField).ascending(): Sort.by(sortField).descending();
 
@@ -43,7 +46,7 @@ public class SupplierController {
     @GetMapping("/{id}")
     public ResponseEntity<SupplierDto> getSupplier(@PathVariable("id") UUID supplierId) {
         Supplier foundSupplier = supplierService.findOne(supplierId);
-        return ResponseEntity.status(HttpStatus.FOUND).body(supplierMapper.supplierToDto(foundSupplier));
+        return ResponseEntity.status(HttpStatus.OK).body(supplierMapper.supplierToDto(foundSupplier));
     }
 
     @PostMapping

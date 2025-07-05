@@ -30,8 +30,11 @@ public class ProductCategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductCategoryDto>> listCategories(@RequestParam int page, @RequestParam int size,
-                                                                   @RequestParam String sortField, @RequestParam String order) {
+    public ResponseEntity<List<ProductCategoryDto>> listCategories(
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "20") int size,
+            @RequestParam(required = false, defaultValue = "name") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String order){
         Sort sort = order.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
                 Sort.by(sortField).ascending(): Sort.by(sortField).descending();
 
@@ -43,7 +46,7 @@ public class ProductCategoryController {
     @GetMapping("/{id}")
     public ResponseEntity<ProductCategoryDto> getCategory(@PathVariable("id") UUID categoryId) {
         ProductCategory foundCategory = productCategoryService.findOne(categoryId);
-        return ResponseEntity.status(HttpStatus.FOUND).body(productCategoryMapper.productCategoryToDto(foundCategory));
+        return ResponseEntity.status(HttpStatus.OK).body(productCategoryMapper.productCategoryToDto(foundCategory));
     }
 
     @PostMapping

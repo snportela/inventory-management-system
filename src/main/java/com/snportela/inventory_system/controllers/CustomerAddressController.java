@@ -30,8 +30,11 @@ public class CustomerAddressController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CustomerAddressDto>> listCustomerAddresses(@RequestParam int page, @RequestParam int size,
-                                                                          @RequestParam String sortField, @RequestParam String order) {
+    public ResponseEntity<List<CustomerAddressDto>> listCustomerAddresses(
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "20") int size,
+            @RequestParam(required = false, defaultValue = "street") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String order){
         Sort sort = order.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
                 Sort.by(sortField).ascending(): Sort.by(sortField).descending();
 
@@ -43,7 +46,7 @@ public class CustomerAddressController {
     @GetMapping("/{id}")
     public ResponseEntity<CustomerAddressDto> getCustomerAddress(@PathVariable("id") UUID customerAddressId) {
         CustomerAddress foundCustomerAddress = customerAddressService.findOne(customerAddressId);
-        return ResponseEntity.status(HttpStatus.FOUND).body(customerAddressMapper.customerAddressToDto(foundCustomerAddress));
+        return ResponseEntity.status(HttpStatus.OK).body(customerAddressMapper.customerAddressToDto(foundCustomerAddress));
     }
 
     @PostMapping

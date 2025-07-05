@@ -30,7 +30,11 @@ public class CustomerController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CustomerDto>> listCustomersWithPagination(@RequestParam int page, @RequestParam int size, @RequestParam(required = false) String sortField, @RequestParam String order){
+    public ResponseEntity<List<CustomerDto>> listCustomers(
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "20") int size,
+            @RequestParam(required = false, defaultValue = "name") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String order){
 
         Sort sort = order.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
                 Sort.by(sortField).ascending(): Sort.by(sortField).descending();
@@ -43,7 +47,7 @@ public class CustomerController {
     @GetMapping("/{id}")
     public ResponseEntity<CustomerDto> getCustomer(@PathVariable("id") UUID customerId) {
         Customer foundCustomer = customerService.findOne(customerId);
-        return ResponseEntity.status(HttpStatus.FOUND).body(customerMapper.customerToDto(foundCustomer));
+        return ResponseEntity.status(HttpStatus.OK).body(customerMapper.customerToDto(foundCustomer));
     }
 
     @PostMapping

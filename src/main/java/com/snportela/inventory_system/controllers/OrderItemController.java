@@ -30,8 +30,11 @@ public class OrderItemController {
     }
 
     @GetMapping
-    public ResponseEntity<List<OrderItemDto>> listOrderItems(@RequestParam int page, @RequestParam int size,
-                                                             @RequestParam String sortField, @RequestParam String order) {
+    public ResponseEntity<List<OrderItemDto>> listOrderItems(
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "20") int size,
+            @RequestParam(required = false, defaultValue = "orderQuantity") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String order){
         Sort sort = order.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
                 Sort.by(sortField).ascending(): Sort.by(sortField).descending();
 
@@ -43,13 +46,13 @@ public class OrderItemController {
     @GetMapping("/product/{id}")
     public ResponseEntity<OrderItemDto> getOrderItemByProductId(@PathVariable("id") UUID productId) {
         OrderItem foundOrderItem = orderItemService.findOneByProduct(productId);
-        return ResponseEntity.status(HttpStatus.FOUND).body(orderItemMapper.orderItemToDto(foundOrderItem));
+        return ResponseEntity.status(HttpStatus.OK).body(orderItemMapper.orderItemToDto(foundOrderItem));
     }
 
     @GetMapping("/order/{id}")
     public ResponseEntity<OrderItemDto> getOrderItemByOrderId(@PathVariable("id") UUID orderId) {
         OrderItem foundOrderItem = orderItemService.findOneByOrder(orderId);
-        return ResponseEntity.status(HttpStatus.FOUND).body(orderItemMapper.orderItemToDto(foundOrderItem));
+        return ResponseEntity.status(HttpStatus.OK).body(orderItemMapper.orderItemToDto(foundOrderItem));
     }
 
     @PostMapping
@@ -73,6 +76,8 @@ public class OrderItemController {
         OrderItem updatedOrderItem = orderItemService.updateByOrder(orderId, orderItemMapper.dtoToOrderItem(orderItemDto));
         return ResponseEntity.status(HttpStatus.CREATED).body(orderItemMapper.orderItemToDto(updatedOrderItem));
     }
+
+    //TODO make endpoint return pageable
 
     @DeleteMapping("/product/{id}")
     public ResponseEntity<String> deleteOrderItemByProduct(@PathVariable("id") UUID productId) {
